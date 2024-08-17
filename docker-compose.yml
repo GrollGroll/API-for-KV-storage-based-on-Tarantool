@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  app:
+    container_name: FastAPI
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - tarantool
+
+  tarantool:
+    image: tarantool/tarantool:latest
+    container_name: tarantool
+    ports:
+      - "3301:3301"
+    volumes:
+      - ./kv_db.lua:/opt/tarantool/kv_db.lua
+    command: tarantool /opt/tarantool/kv_db.lua
